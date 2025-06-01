@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black text-white font-inter overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-orbitron;
+  }
+}
+
+@layer components {
+  .neon-border {
+    @apply border border-transparent relative;
+    box-shadow: 0 0 5px theme('colors.accent.500'), 
+                0 0 10px theme('colors.accent.500'), 
+                0 0 15px theme('colors.accent.500');
+    animation: borderGlow 3s ease-in-out infinite alternate;
+  }
+  
+  .glass {
+    @apply bg-opacity-10 bg-white backdrop-blur-md border border-white/20;
+  }
+  
+  .portfolio-card {
+    @apply glass rounded-xl overflow-hidden transition-all duration-500;
+  }
+  
+  .portfolio-card:hover {
+    @apply neon-border transform scale-[1.02] z-10;
+  }
+}
+
+@keyframes borderGlow {
+  0% {
+    box-shadow: 0 0 5px theme('colors.accent.500'), 
+                0 0 10px theme('colors.accent.500'), 
+                0 0 15px theme('colors.accent.500');
+  }
+  100% {
+    box-shadow: 0 0 10px theme('colors.accent.500'), 
+                0 0 20px theme('colors.accent.500'), 
+                0 0 30px theme('colors.accent.500');
+  }
+}
+
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-card:hover {
+    transform: scale(1);
+  }
+  
+  .neon-border, .portfolio-card {
+    animation: none;
+    transition: none;
+  }
+}
