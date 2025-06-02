@@ -38,11 +38,11 @@ const projects = [
   },
   {
     id: 5,
-    title: "E-commerce Platform",
+    title: "Data Visualization Dashboard",
     category: "web",
-    description: "Full-featured e-commerce solution with real-time inventory and payment processing",
-    image: "https://images.pexels.com/photos/5076516/pexels-photo-5076516.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Next.js", "Stripe", "PostgreSQL"]
+    description: "Interactive dashboards for complex data analysis and real-time insights",
+    image: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tags: ["D3.js", "React", "Chart.js"]
   },
   {
     id: 6,
