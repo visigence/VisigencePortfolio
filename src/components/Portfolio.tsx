@@ -6,51 +6,51 @@ import PortfolioCard from './PortfolioCard';
 const projects = [
   {
     id: 1,
-    title: "3D Modeling",
-    category: "web",
-    description: "High-fidelity 3D models and visualizations with photorealistic rendering and animation capabilities",
+    title: "3D Character Models",
+    category: "3d",
+    description: "High-fidelity 3D character models with advanced rigging and animations for games and cinematics",
     image: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["React", "TensorFlow.js", "D3.js"]
+    tags: ["Blender", "Maya", "ZBrush"]
   },
   {
     id: 2,
-    title: "Web Design",
-    category: "software",
-    description: "Educational platform for quantum computing concepts",
+    title: "Modern Web Applications",
+    category: "web",
+    description: "Responsive and interactive web applications with modern UI/UX design principles",
     image: "https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Python", "Qiskit", "WebAssembly"]
+    tags: ["React", "TypeScript", "Tailwind"]
   },
   {
     id: 3,
-    title: "Sustainable Smart Home",
-    category: "iot",
-    description: "IoT system for energy-efficient home automation",
-    image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["IoT", "React Native", "Node.js"]
+    title: "RPG Game Development",
+    category: "gaming",
+    description: "Immersive role-playing game with advanced combat mechanics and rich storytelling",
+    image: "https://images.pexels.com/photos/7915357/pexels-photo-7915357.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tags: ["Unity", "C#", "Game Design"]
   },
   {
     id: 4,
-    title: "Blockchain Supply Chain",
-    category: "blockchain",
-    description: "Transparent supply chain tracking using blockchain",
-    image: "https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Ethereum", "Solidity", "Web3.js"]
+    title: "Environmental Design",
+    category: "3d",
+    description: "Photorealistic environmental assets and scenes for virtual worlds",
+    image: "https://images.pexels.com/photos/3856635/pexels-photo-3856635.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tags: ["3D Studio Max", "Substance Painter", "V-Ray"]
   },
   {
     id: 5,
-    title: "AR Product Visualization",
-    category: "ar",
-    description: "Augmented reality app for product showcasing",
-    image: "https://images.pexels.com/photos/8728560/pexels-photo-8728560.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Unity", "ARKit", "Vuforia"]
+    title: "E-commerce Platform",
+    category: "web",
+    description: "Full-featured e-commerce solution with real-time inventory and payment processing",
+    image: "https://images.pexels.com/photos/5076516/pexels-photo-5076516.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tags: ["Next.js", "Stripe", "PostgreSQL"]
   },
   {
     id: 6,
-    title: "Neural Music Composer",
-    category: "ai",
-    description: "AI-powered music composition and generation",
-    image: "https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["TensorFlow", "Web Audio API", "Python"]
+    title: "Arcade Game Collection",
+    category: "gaming",
+    description: "Collection of retro-inspired arcade games with modern twists",
+    image: "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    tags: ["Phaser.js", "WebGL", "Pixel Art"]
   }
 ];
 
