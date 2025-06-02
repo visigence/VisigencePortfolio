@@ -30,22 +30,6 @@ const projects = [
   },
   {
     id: 4,
-    title: "Environmental Design",
-    category: "3d",
-    description: "Photorealistic environmental assets and scenes for virtual worlds",
-    image: "https://images.pexels.com/photos/3856635/pexels-photo-3856635.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["3D Studio Max", "Substance Painter", "V-Ray"]
-  },
-  {
-    id: 5,
-    title: "E-commerce Platform",
-    category: "web",
-    description: "Full-featured e-commerce solution with real-time inventory and payment processing",
-    image: "https://images.pexels.com/photos/5076516/pexels-photo-5076516.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Next.js", "Stripe", "PostgreSQL"]
-  },
-  {
-    id: 6,
     title: "Arcade Game Collection",
     category: "gaming",
     description: "Collection of retro-inspired arcade games with modern twists",
@@ -127,7 +111,7 @@ const Portfolio: React.FC = () => {
         </div>
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
           layout
         >
           <AnimatePresence>
