@@ -32,6 +32,24 @@
   .portfolio-card:hover {
     @apply neon-border transform scale-[1.02] z-10;
   }
+
+  .shimmer-overlay {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.2) 80%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: none;
+    pointer-events: none;
+  }
+
+  .group:hover .shimmer-overlay {
+    animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
 }
 
 @keyframes borderGlow {
@@ -44,6 +62,15 @@
     box-shadow: 0 0 10px theme('colors.accent.500'), 
                 0 0 20px theme('colors.accent.500'), 
                 0 0 30px theme('colors.accent.500');
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -64,5 +91,9 @@
   .neon-border, .portfolio-card {
     animation: none;
     transition: none;
+  }
+
+  .group:hover .shimmer-overlay {
+    animation: none;
   }
 }
