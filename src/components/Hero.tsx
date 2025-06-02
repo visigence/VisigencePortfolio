@@ -84,3 +84,10 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+<section class="dashboard-preview-section">
+  <img
+    src="/path/to/your/A_2D_digital_image_showcases_a_user_interface_(UI).png"
+    alt="Visigence Platform Dashboard"
+    class="dashboard-graphic"
+  />
+</section>
