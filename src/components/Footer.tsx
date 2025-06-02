@@ -1,7 +1,44 @@
-import React from 'react';
-import { Github, Twitter, Linkedin, Instagram, Send, Braces } from 'lucide-react';
+import React, { useState } from 'react';
+import { Github, Twitter, Linkedin, Instagram, Send, Braces, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Footer: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !message) {
+      setStatus('error');
+      setErrorMessage('Please fill in all fields');
+      return;
+    }
+
+    setStatus('submitting');
+    
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([{ email, message }]);
+
+      if (error) throw error;
+
+      setStatus('success');
+      setEmail('');
+      setMessage('');
+      
+      // Reset success status after 3 seconds
+      setTimeout(() => setStatus('idle'), 3000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+      setErrorMessage('Failed to submit form. Please try again later.');
+    }
+  };
+
   return (
     <footer id="contact" className="bg-black relative">
       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
@@ -58,28 +95,53 @@ const Footer: React.FC = () => {
           
           <div>
             <h3 className="text-lg font-orbitron font-bold mb-4">Contact Us</h3>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <input 
                   type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email" 
                   className="w-full px-4 py-2 bg-primary-900/50 border border-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-400"
                   aria-label="Your email"
+                  disabled={status === 'submitting'}
                 />
               </div>
               <div>
                 <textarea 
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Your message" 
                   rows={3} 
                   className="w-full px-4 py-2 bg-primary-900/50 border border-primary-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-400"
                   aria-label="Your message"
+                  disabled={status === 'submitting'}
                 ></textarea>
               </div>
+              
+              {status === 'error' && (
+                <p className="text-red-500 text-sm">{errorMessage}</p>
+              )}
+              
+              {status === 'success' && (
+                <p className="text-green-500 text-sm">Message sent successfully!</p>
+              )}
+              
               <button 
                 type="submit" 
-                className="px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white rounded-md transition-colors flex items-center"
+                className="px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white rounded-md transition-colors flex items-center justify-center w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={status === 'submitting'}
               >
-                Send Message <Send size={16} className="ml-2" />
+                {status === 'submitting' ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin mr-2" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message <Send size={16} className="ml-2" />
+                  </>
+                )}
               </button>
             </form>
           </div>
