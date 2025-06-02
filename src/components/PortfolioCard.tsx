@@ -84,6 +84,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project }) => {
       >
         <div className="relative h-full w-full overflow-hidden">
           <div className="shimmer-overlay absolute inset-0 z-10 opacity-0 group-hover:opacity-100" />
+          <div className="digital-grid absolute inset-0 z-20" />
+          <div className="data-flow absolute inset-0 z-30" />
           <motion.img
             src={project.image}
             alt={project.title}

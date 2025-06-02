@@ -47,8 +47,40 @@
     pointer-events: none;
   }
 
+  .digital-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .group:hover .digital-grid {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+
   .group:hover .shimmer-overlay {
     animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .data-flow {
+    background: linear-gradient(90deg, 
+      transparent,
+      rgba(99, 102, 241, 0.2) 25%,
+      rgba(217, 70, 239, 0.2) 50%,
+      rgba(99, 102, 241, 0.2) 75%,
+      transparent
+    );
+    background-size: 200% 100%;
+    opacity: 0;
+    animation: none;
+  }
+
+  .group:hover .data-flow {
+    opacity: 1;
+    animation: dataFlow 3s linear infinite;
   }
 }
 
@@ -66,6 +98,15 @@
 }
 
 @keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes dataFlow {
   0% {
     background-position: 200% 0;
   }
@@ -93,7 +134,12 @@
     transition: none;
   }
 
-  .group:hover .shimmer-overlay {
+  .group:hover .shimmer-overlay,
+  .group:hover .data-flow {
     animation: none;
+  }
+
+  .digital-grid {
+    display: none;
   }
 }
