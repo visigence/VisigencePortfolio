@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import PortfolioCard from './PortfolioCard';
 
 // Define the projects data structure
@@ -46,22 +46,10 @@ const Portfolio: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
   const categories = ['all', ...new Set(projects.map(p => p.category))];
   const filteredProjects = filter === 'all' 
     ? projects 
     : projects.filter(project => project.category === filter);
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.2, duration: 0.5, ease: "easeOut" }
-    })
-  };
 
   return (
     <section 
@@ -74,7 +62,10 @@ const Portfolio: React.FC = () => {
       
       <motion.div 
         className="container mx-auto px-6 relative z-10"
-        style={{ y, opacity }}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-100px" }}
       >
         <div className="text-center mb-16">
           <motion.h2 
@@ -94,7 +85,7 @@ const Portfolio: React.FC = () => {
           >
             Limitless possibilities, above imagination.
           </motion.p>
-          <div className="flex justify-center gap-4 mt-6">
+          <div className="flex flex-wrap justify-center gap-4 mt-6">
             {categories.map(category => (
               <button
                 key={category}
@@ -114,15 +105,15 @@ const Portfolio: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
           layout
         >
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                custom={index}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3 }}
+                layout
                 role="article"
                 aria-labelledby={`project-${project.id}-title`}
               >
