@@ -1,59 +1,46 @@
-import React, { useRef, useState } from 'react';
-import { motion, useScroll, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import PortfolioCard from './PortfolioCard';
-
-// Define the projects data structure
-const projects = [
-  {
-    id: 1,
-    title: "3D Character Models",
-    category: "3d",
-    description: "High-fidelity 3D character models with advanced rigging and animations for games and cinematics",
-    image: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Blender", "Maya", "ZBrush"]
-  },
-  {
-    id: 2,
-    title: "Modern Web Applications",
-    category: "web",
-    description: "Responsive and interactive web applications with modern UI/UX design principles",
-    image: "https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["React", "TypeScript", "Tailwind"]
-  },
-  {
-    id: 3,
-    title: "RPG Game Development",
-    category: "gaming",
-    description: "Immersive role-playing game with advanced combat mechanics and rich storytelling",
-    image: "https://images.pexels.com/photos/7915357/pexels-photo-7915357.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Unity", "C#", "Game Design"]
-  },
-  {
-    id: 4,
-    title: "Arcade Game Collection",
-    category: "gaming",
-    description: "Collection of retro-inspired arcade games with modern twists",
-    image: "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["Phaser.js", "WebGL", "Pixel Art"]
-  }
-];
+import { useQuery } from '@tanstack/react-query';
+import { supabase, type PortfolioItem } from '../lib/supabase';
+import { Loader2 } from 'lucide-react';
 
 const Portfolio: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
   const [filter, setFilter] = useState<string>('all');
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
+
+  const { data: projects, isLoading, error } = useQuery({
+    queryKey: ['portfolio-items'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('portfolio_items')
+        .select('*')
+        .order('order', { ascending: true });
+      
+      if (error) throw error;
+      return data as PortfolioItem[];
+    }
   });
 
-  const categories = ['all', ...new Set(projects.map(p => p.category))];
-  const filteredProjects = filter === 'all' 
+  const categories = projects 
+    ? ['all', ...new Set(projects.map(p => p.category))] 
+    : ['all'];
+
+  const filteredProjects = projects && filter === 'all' 
     ? projects 
-    : projects.filter(project => project.category === filter);
+    : projects?.filter(project => project.category === filter);
+
+  if (error) {
+    return (
+      <section className="py-24 relative overflow-hidden">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-red-500">Error loading portfolio items. Please try again later.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section 
-      ref={sectionRef}
       id="portfolio"
       className="py-24 relative overflow-hidden"
       aria-labelledby="portfolio-heading"
@@ -101,27 +88,33 @@ const Portfolio: React.FC = () => {
           </div>
         </div>
         
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          layout
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3 }}
-                layout
-                role="article"
-                aria-labelledby={`project-${project.id}-title`}
-              >
-                <PortfolioCard project={project} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <Loader2 className="w-8 h-8 animate-spin text-accent-400" />
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProjects?.map((project) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  layout
+                  role="article"
+                  aria-labelledby={`project-${project.id}-title`}
+                >
+                  <PortfolioCard project={project} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
         
         <motion.div 
           className="text-center mt-16"

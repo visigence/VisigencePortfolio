@@ -9,19 +9,21 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Type for the user profile
-export type Profile = {
+export type PortfolioItem = {
   id: string;
-  email: string;
-  role: 'visitor' | 'admin';
+  title: string;
+  category: string;
+  description: string;
+  image_url: string;
+  tags: string[];
   created_at: string;
+  order: number;
 };
 
-// Type for contact form submissions
 export type ContactSubmission = {
   id: string;
-  name: string;
   email: string;
   message: string;
   created_at: string;
+  status: string;
 };

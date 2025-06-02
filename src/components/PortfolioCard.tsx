@@ -2,18 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import VanillaTilt from 'vanilla-tilt';
 import { X } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  tags: string[];
-}
+import type { PortfolioItem } from '../lib/supabase';
 
 interface PortfolioCardProps {
-  project: Project;
+  project: PortfolioItem;
 }
 
 const PortfolioCard: React.FC<PortfolioCardProps> = ({ project }) => {
@@ -87,7 +79,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project }) => {
           <div className="digital-grid absolute inset-0 z-20" />
           <div className="data-flow absolute inset-0 z-30" />
           <motion.img
-            src={project.image}
+            src={project.image_url}
             alt={project.title}
             className="object-cover h-full w-full transform transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
@@ -151,7 +143,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project }) => {
 
               <div className="h-[300px] md:h-[400px] relative">
                 <img
-                  src={project.image}
+                  src={project.image_url}
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
