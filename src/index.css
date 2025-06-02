@@ -11,6 +11,10 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-orbitron;
   }
+
+  a, button, input, textarea, select {
+    cursor: none;
+  }
 }
 
 @layer components {
@@ -84,52 +88,51 @@
     animation: dataFlow 3s linear infinite;
   }
 
-  /* Custom Cursor Styles */
-  .custom-cursor-main {
-    @apply fixed w-8 h-8 pointer-events-none z-50;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
-    mix-blend-mode: difference;
+  /* Custom Cursor */
+  .custom-cursor {
+    @apply fixed top-0 left-0 pointer-events-none z-50;
+    width: 20px;
+    height: 20px;
+    will-change: transform;
   }
 
-  .custom-cursor-main.hover {
-    @apply w-16 h-16;
+  .custom-cursor::before {
+    content: '';
+    @apply absolute inset-0;
     background: theme('colors.accent.400');
-    mix-blend-mode: normal;
-  }
-
-  .custom-cursor-main.clicked {
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-
-  .custom-cursor-dot {
-    @apply fixed w-2 h-2 pointer-events-none z-50;
-    background: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    mix-blend-mode: difference;
+    transform: scale(0.2);
+    opacity: 0.6;
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
-  .custom-cursor-dot.hover {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+  .cursor-ring {
+    @apply absolute inset-[-10px];
+    border: 2px solid theme('colors.accent.400');
+    border-radius: 50%;
+    opacity: 0.3;
+    transition: all 0.3s ease;
   }
 
-  /* Hide default cursor */
-  body {
-    cursor: none;
+  .custom-cursor.active::before {
+    transform: scale(0.4);
+    opacity: 1;
   }
 
-  /* Ensure interactive elements maintain custom cursor */
-  a, button, input, textarea, select {
-    cursor: none;
+  .custom-cursor.active .cursor-ring {
+    @apply inset-[-15px];
+    border-width: 3px;
+    opacity: 0.8;
+  }
+
+  .custom-cursor.clicked::before {
+    transform: scale(0.3);
+  }
+
+  .custom-cursor.clicked .cursor-ring {
+    @apply inset-[-12px];
+    border-width: 4px;
+    opacity: 1;
   }
 }
 
@@ -192,8 +195,9 @@
     display: none;
   }
 
-  .custom-cursor-main,
-  .custom-cursor-dot {
+  .custom-cursor,
+  .custom-cursor::before,
+  .cursor-ring {
     transition: none;
   }
 }

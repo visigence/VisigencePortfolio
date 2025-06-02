@@ -6,60 +6,48 @@ import About from './components/About';
 import Footer from './components/Footer';
 
 function App() {
-  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
-  const [dotPosition, setDotPosition] = useState({ x: -100, y: -100 });
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
-  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
-    const updateCursorPosition = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-      // Add a slight delay for the trailing dot
-      requestAnimationFrame(() => {
-        setDotPosition({ x: e.clientX, y: e.clientY });
+    let rafId: number;
+
+    const updateCursor = (e: MouseEvent) => {
+      rafId = requestAnimationFrame(() => {
+        setCursorPos({ x: e.clientX, y: e.clientY });
       });
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('button, a, input, textarea, select')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+    const handleInteraction = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      setIsHovering(!!target.closest('button, a, input, textarea, select'));
     };
 
-    const handleMouseDown = () => setIsMouseDown(true);
-    const handleMouseUp = () => setIsMouseDown(false);
-
-    window.addEventListener('mousemove', updateCursorPosition);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mousemove', updateCursor);
+    window.addEventListener('mouseover', handleInteraction);
+    window.addEventListener('mousedown', () => setIsClicked(true));
+    window.addEventListener('mouseup', () => setIsClicked(false));
 
     return () => {
-      window.removeEventListener('mousemove', updateCursorPosition);
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', updateCursor);
+      window.removeEventListener('mouseover', handleInteraction);
+      window.removeEventListener('mousedown', () => setIsClicked(true));
+      window.removeEventListener('mouseup', () => setIsClicked(false));
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-primary-950">
       <div 
-        className={`custom-cursor-main ${isHovering ? 'hover' : ''} ${isMouseDown ? 'clicked' : ''}`}
+        className={`custom-cursor ${isHovering ? 'active' : ''} ${isClicked ? 'clicked' : ''}`}
         style={{ 
-          left: `${cursorPosition.x}px`, 
-          top: `${cursorPosition.y}px` 
+          transform: `translate(${cursorPos.x}px, ${cursorPos.y}px)`
         }}
-      />
-      <div 
-        className={`custom-cursor-dot ${isHovering ? 'hover' : ''}`}
-        style={{ 
-          left: `${dotPosition.x}px`, 
-          top: `${dotPosition.y}px` 
-        }}
-      />
+      >
+        <div className="cursor-ring"></div>
+      </div>
       <Navbar />
       <main>
         <Hero />
