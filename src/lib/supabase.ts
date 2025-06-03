@@ -1,10 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-// Create Supabase client
-export const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type PortfolioItem = {
   id: string;
@@ -17,6 +11,15 @@ export type PortfolioItem = {
   order: number;
 };
 
+export type ContactSubmission = {
+  id: string;
+  email: string;
+  message: string;
+  created_at: string;
+  status: string;
+};
+
+// Mock portfolio items
 export const mockPortfolioItems: PortfolioItem[] = [
   {
     id: '1',
@@ -59,3 +62,19 @@ export const mockPortfolioItems: PortfolioItem[] = [
     order: 4
   }
 ];
+
+// Mock Supabase client
+export const supabase = {
+  from: (table: string) => ({
+    insert: async (data: any) => {
+      console.log(`Mock insert into ${table}:`, data);
+      return { error: null, data: { ...data, id: crypto.randomUUID() } };
+    },
+    select: async () => ({
+      order: () => ({
+        data: mockPortfolioItems,
+        error: null
+      })
+    })
+  })
+} as unknown as SupabaseClient;

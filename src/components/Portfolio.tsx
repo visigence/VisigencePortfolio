@@ -2,19 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PortfolioCard from './PortfolioCard';
 import { Loader2 } from 'lucide-react';
-import { mockPortfolioItems, type PortfolioItem } from '../lib/supabase';
+import { mockPortfolioItems } from '../lib/supabase';
 
 const Portfolio: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
-  const projects = mockPortfolioItems;
-  
-  const categories = ['all', ...new Set(projects.map(p => p.category))];
-
+  const categories = ['all', ...new Set(mockPortfolioItems.map(p => p.category))];
   const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
+    ? mockPortfolioItems 
+    : mockPortfolioItems.filter(project => project.category === filter);
 
   return (
     <section 
@@ -75,7 +72,7 @@ const Portfolio: React.FC = () => {
             layout
           >
             <AnimatePresence mode="popLayout">
-              {filteredProjects?.map((project) => (
+              {filteredProjects.map((project) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, scale: 0.8 }}
