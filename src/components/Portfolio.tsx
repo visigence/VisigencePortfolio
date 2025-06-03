@@ -1,43 +1,20 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PortfolioCard from './PortfolioCard';
-import { useQuery } from '@tanstack/react-query';
-import { supabase, type PortfolioItem } from '../lib/supabase';
 import { Loader2 } from 'lucide-react';
+import { mockPortfolioItems, type PortfolioItem } from '../lib/supabase';
 
 const Portfolio: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data: projects, isLoading, error } = useQuery({
-    queryKey: ['portfolio-items'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('portfolio_items')
-        .select('*')
-        .order('order', { ascending: true });
-      
-      if (error) throw error;
-      return data as PortfolioItem[];
-    }
-  });
+  const projects = mockPortfolioItems;
+  
+  const categories = ['all', ...new Set(projects.map(p => p.category))];
 
-  const categories = projects 
-    ? ['all', ...new Set(projects.map(p => p.category))] 
-    : ['all'];
-
-  const filteredProjects = projects && filter === 'all' 
+  const filteredProjects = filter === 'all' 
     ? projects 
-    : projects?.filter(project => project.category === filter);
-
-  if (error) {
-    return (
-      <section className="py-24 relative overflow-hidden">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-red-500">Error loading portfolio items. Please try again later.</p>
-        </div>
-      </section>
-    );
-  }
+    : projects.filter(project => project.category === filter);
 
   return (
     <section 
