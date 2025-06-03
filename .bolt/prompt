@@ -1,5 +1,101 @@
-For all designs I ask you to make, have them be beautiful, not cookie cutter. Make webpages that are fully featured and worthy for production.
+As a senior software engineer, create a modern full-stack web application that meets enterprise standards. Follow this comprehensive implementation guide:
 
-By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.
+SYSTEM ARCHITECTURE & SETUP
 
-Use icons from lucide-react for logos.
+Frontend (React 18 + TypeScript):
+1. Initialize a new Vite project with strict TypeScript configuration
+2. Implement the following architecture:
+   - Feature-based folder structure (/features, /shared, /core)
+   - Atomic design pattern for components
+   - Custom hook library for reusable logic
+   - Type-safe API client with axios
+   - Error boundary HOCs for graceful failure handling
+
+Tech Stack Requirements:
+- Configure TailwindCSS with custom theme
+- Set up React Router v6 with typed routes
+- Implement React Query with optimistic updates
+- Initialize Zustand store with TypeScript
+- Add i18n support for internationalization
+
+Backend (Supabase):
+1. Design database schema with the following:
+   - Normalized tables with proper relationships
+   - Optimized indexes for common queries
+   - RLS policies for each table
+   - Trigger functions for audit logging
+
+2. Implement Edge Functions for:
+   - Custom authentication flows
+   - Webhook handling
+   - Background jobs
+   - Data aggregation
+
+IMPLEMENTATION CHECKLIST
+
+1. Authentication System:
+   - Set up OAuth providers (Google, GitHub)
+   - Implement JWT handling with refresh token rotation
+   - Create protected route middleware
+   - Design password reset flow with rate limiting
+
+2. User Interface:
+   - Build responsive layouts using CSS Grid/Flexbox
+   - Implement skeleton loaders for all async operations
+   - Add toast notifications system
+   - Create reusable form components with validation
+   - Design system with consistent spacing/typography
+
+3. Admin Dashboard:
+   - Real-time user management interface
+   - Content moderation queue
+   - Analytics with chart.js/d3
+   - Batch operations for data management
+   - Audit log viewer
+
+4. Security Measures:
+   - Implement Content Security Policy
+   - Add rate limiting on API routes
+   - Set up CORS properly
+   - Sanitize all user inputs
+   - Regular security audits
+
+QUALITY ASSURANCE
+
+Testing Strategy:
+- Unit tests for utilities and hooks
+- Component tests with React Testing Library
+- E2E tests for critical user flows
+- API integration tests
+- Performance testing with Lighthouse
+
+Performance Optimization:
+- Implement code splitting at route level
+- Add service worker for offline support
+- Configure CDN for static assets
+- Database query optimization
+- Real-time connection management
+
+DEPLOYMENT & MONITORING
+
+1. CI/CD Pipeline:
+   - GitHub Actions workflow
+   - Automated testing
+   - Security scanning
+   - Environment-specific deployments
+
+2. Production Setup:
+   - SSL/TLS configuration
+   - Database backups
+   - Error tracking (Sentry)
+   - Performance monitoring
+   - Uptime monitoring
+
+Deliver all code with comprehensive documentation, including:
+- API documentation (OpenAPI/Swagger)
+- Component storybook
+- Setup guide
+- Contributing guidelines
+- Security policy
+
+Follow Git best practices with conventional commits and proper branching strategy. Ensure all code passes linting, type checking, and test coverage requirements before deployment.
