@@ -115,7 +115,7 @@ const UserManagement: React.FC = () => {
   };
 
   if (isLoading) {
-    return <LoadingSpinner size="lg" text="Loading users..." />;
+    return <LoadingSpinner size="lg\" text="Loading users..." />;
   }
 
   if (error) {
