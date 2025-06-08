@@ -1,84 +1,181 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import HeroCanvas from './three/HeroCanvas';
 
 const Hero: React.FC = () => {
-  const titleVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const containerVariants = {
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, delay: 0.2 }
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      }
     }
   };
 
-  const subtitleVariants = {
-    hidden: { opacity: 0, y: 20 },
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: 0.4 }
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
+  const floatingVariants = {
+    animate: {
+      y: [-10, 10, -10],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
     }
   };
 
   return (
-    <section 
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center"
-    >
-      {/* 3D Canvas Background */}
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+      {/* Enhanced 3D Canvas Background */}
       <div className="canvas-container">
         <HeroCanvas />
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-6 z-10 text-center">
-        <motion.h1 
-          className="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-4 text-white"
-          initial="hidden"
-          animate="visible"
-          variants={titleVariants}
+      {/* Gradient Overlays for Depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/10 via-transparent to-slate-950/10 pointer-events-none" />
+
+      {/* Content Container */}
+      <motion.div 
+        className="container mx-auto container-padding z-10 text-center relative"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Floating Badge */}
+        <motion.div
+          variants={itemVariants}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
         >
-          <span className="text-primary-400">3D Models</span>. <span className="text-secondary-400">Web Design</span>. <span className="text-accent-400">AI</span>.
-          <br />
-          <span className="block mt-2">Your <span className="text-accent-400">VISION</span></span>
+          <Sparkles className="w-4 h-4 text-violet-400" />
+          <span className="text-sm font-medium text-slate-300">
+            Limitless Possibilities, Above Imagination
+          </span>
+        </motion.div>
+
+        {/* Main Heading */}
+        <motion.h1 
+          variants={itemVariants}
+          className="heading-xl mb-8"
+        >
+          <span className="block">
+            <span className="text-gradient">3D Models</span>
+            <span className="text-slate-300">.</span>
+          </span>
+          <span className="block">
+            <span className="text-gradient">Web Design</span>
+            <span className="text-slate-300">.</span>
+          </span>
+          <span className="block">
+            <span className="text-gradient">AI Solutions</span>
+            <span className="text-slate-300">.</span>
+          </span>
+          <span className="block mt-4 text-white">
+            Your <span className="text-gradient font-black">VISION</span>
+          </span>
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p 
-          className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
-          initial="hidden"
-          animate="visible"
-          variants={subtitleVariants}
+          variants={itemVariants}
+          className="text-xl md:text-2xl text-slate-400 mb-12 max-w-4xl mx-auto leading-relaxed"
         >
           Driven by vision. Powered by intelligence.
+          <br />
+          <span className="text-lg text-slate-500">
+            Transforming ideas into extraordinary digital experiences
+          </span>
         </motion.p>
 
+        {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="flex flex-col sm:flex-row justify-center gap-4"
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row justify-center gap-6 mb-16"
         >
-          <a 
+          <motion.a 
             href="#portfolio" 
-            className="px-8 py-3 bg-accent-600 hover:bg-accent-500 text-white rounded-md transition-all transform hover:scale-105 hover:shadow-lg hover:shadow-accent-500/20"
+            className="btn-primary group inline-flex items-center justify-center gap-3"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            View Portfolio
-          </a>
-          <a 
+            <span>Explore Portfolio</span>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </motion.a>
+          
+          <motion.a 
             href="#contact" 
-            className="px-8 py-3 bg-transparent border border-white hover:border-accent-400 text-white rounded-md transition-all transform hover:scale-105"
+            className="btn-secondary group inline-flex items-center justify-center gap-3"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Contact Us
-          </a>
+            <span>Start Project</span>
+            <Sparkles className="w-5 h-5 transition-transform group-hover:rotate-12" />
+          </motion.a>
         </motion.div>
-      </div>
+
+        {/* Stats Grid */}
+        <motion.div
+          variants={itemVariants}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+        >
+          {[
+            { number: "50+", label: "Projects Delivered" },
+            { number: "100%", label: "Client Satisfaction" },
+            { number: "24/7", label: "Support Available" }
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              className="glass rounded-2xl p-6 text-center"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-3xl font-bold text-gradient mb-2">
+                {stat.number}
+              </div>
+              <div className="text-slate-400 text-sm">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-white flex justify-center items-start p-1">
-          <div className="w-1 h-2 bg-white rounded-full animate-pulse-slow"></div>
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        variants={floatingVariants}
+        animate="animate"
+      >
+        <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center items-start p-2">
+          <motion.div 
+            className="w-1 h-3 bg-gradient-to-b from-violet-400 to-purple-500 rounded-full"
+            animate={{
+              y: [0, 12, 0],
+              opacity: [1, 0.3, 1]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
         </div>
-      </div>
+        <p className="text-xs text-slate-500 mt-2 font-medium">Scroll to explore</p>
+      </motion.div>
     </section>
   );
 };

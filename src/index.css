@@ -3,43 +3,123 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  
   body {
-    @apply bg-black text-white font-inter overflow-x-hidden;
+    @apply bg-slate-950 text-slate-50 font-inter antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-orbitron;
+    @apply font-orbitron tracking-tight;
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900/50;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gradient-to-b from-violet-500 to-purple-600 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply from-violet-400 to-purple-500;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-violet-500/30 text-violet-100;
   }
 }
 
 @layer components {
-  .neon-border {
-    @apply border border-transparent relative;
-    box-shadow: 0 0 5px theme('colors.accent.500'), 
-                0 0 10px theme('colors.accent.500'), 
-                0 0 15px theme('colors.accent.500');
-    animation: borderGlow 3s ease-in-out infinite alternate;
-  }
-  
+  /* Glass morphism with enhanced depth */
   .glass {
-    @apply bg-opacity-10 bg-white backdrop-blur-md border border-white/20;
-  }
-  
-  .portfolio-card {
-    @apply glass rounded-xl overflow-hidden transition-all duration-500;
-  }
-  
-  .portfolio-card:hover {
-    @apply neon-border transform scale-[1.02] z-10;
+    @apply bg-white/[0.02] backdrop-blur-xl border border-white/[0.08];
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.03) 0%, transparent 50%);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
   }
 
+  .glass:hover {
+    @apply border-white/[0.12];
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Enhanced gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(
+      135deg,
+      rgb(15, 23, 42) 0%,
+      rgb(30, 41, 59) 25%,
+      rgb(51, 65, 85) 50%,
+      rgb(30, 41, 59) 75%,
+      rgb(15, 23, 42) 100%
+    );
+  }
+
+  .gradient-accent {
+    background: linear-gradient(
+      135deg,
+      rgb(139, 92, 246) 0%,
+      rgb(168, 85, 247) 25%,
+      rgb(217, 70, 239) 50%,
+      rgb(168, 85, 247) 75%,
+      rgb(139, 92, 246) 100%
+    );
+  }
+
+  /* Refined portfolio card */
+  .portfolio-card {
+    @apply relative overflow-hidden rounded-2xl transition-all duration-700 ease-out;
+    @apply glass hover:scale-[1.02] hover:z-10;
+    transform-style: preserve-3d;
+  }
+
+  .portfolio-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.1) 0%,
+      rgba(168, 85, 247, 0.05) 50%,
+      rgba(217, 70, 239, 0.1) 100%
+    );
+  }
+
+  .portfolio-card:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Sophisticated shimmer effect */
   .shimmer-overlay {
     background: linear-gradient(
-      90deg,
+      110deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.2) 20%,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(255, 255, 255, 0.2) 80%,
+      transparent 40%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.2) 55%,
+      rgba(255, 255, 255, 0.1) 60%,
+      transparent 70%,
       transparent 100%
     );
     background-size: 200% 100%;
@@ -47,53 +127,129 @@
     pointer-events: none;
   }
 
+  .group:hover .shimmer-overlay {
+    animation: shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* Refined grid pattern */
   .digital-grid {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
     opacity: 0;
-    transform: scale(1.1);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.05);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .group:hover .digital-grid {
-    opacity: 0.15;
+    opacity: 0.4;
     transform: scale(1);
   }
 
-  .group:hover .shimmer-overlay {
-    animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-
+  /* Enhanced data flow animation */
   .data-flow {
-    background: linear-gradient(90deg, 
-      transparent,
-      rgba(99, 102, 241, 0.2) 25%,
-      rgba(217, 70, 239, 0.2) 50%,
-      rgba(99, 102, 241, 0.2) 75%,
-      transparent
+    background: linear-gradient(
+      90deg, 
+      transparent 0%,
+      rgba(139, 92, 246, 0.1) 20%,
+      rgba(168, 85, 247, 0.2) 40%,
+      rgba(217, 70, 239, 0.3) 50%,
+      rgba(168, 85, 247, 0.2) 60%,
+      rgba(139, 92, 246, 0.1) 80%,
+      transparent 100%
     );
-    background-size: 200% 100%;
+    background-size: 300% 100%;
     opacity: 0;
     animation: none;
   }
 
   .group:hover .data-flow {
     opacity: 1;
-    animation: dataFlow 3s linear infinite;
+    animation: dataFlow 4s ease-in-out infinite;
   }
-}
 
-@keyframes borderGlow {
-  0% {
-    box-shadow: 0 0 5px theme('colors.accent.500'), 
-                0 0 10px theme('colors.accent.500'), 
-                0 0 15px theme('colors.accent.500');
+  /* Professional button styles */
+  .btn-primary {
+    @apply relative px-8 py-4 rounded-xl font-medium transition-all duration-300;
+    @apply bg-gradient-to-r from-violet-600 to-purple-600;
+    @apply hover:from-violet-500 hover:to-purple-500;
+    @apply shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40;
+    @apply transform hover:scale-105 active:scale-95;
   }
-  100% {
-    box-shadow: 0 0 10px theme('colors.accent.500'), 
-                0 0 20px theme('colors.accent.500'), 
-                0 0 30px theme('colors.accent.500');
+
+  .btn-secondary {
+    @apply relative px-8 py-4 rounded-xl font-medium transition-all duration-300;
+    @apply bg-transparent border-2 border-white/20 hover:border-violet-400/50;
+    @apply hover:bg-white/5 backdrop-blur-sm;
+    @apply shadow-lg hover:shadow-xl;
+  }
+
+  /* Enhanced navigation */
+  .nav-link {
+    @apply relative px-4 py-2 rounded-lg transition-all duration-300;
+    @apply hover:bg-white/10 hover:text-violet-300;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-violet-400 to-purple-400;
+    @apply transition-all duration-300 transform -translate-x-1/2;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Refined typography */
+  .heading-xl {
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold leading-tight;
+    background: linear-gradient(
+      135deg,
+      rgb(255, 255, 255) 0%,
+      rgb(203, 213, 225) 25%,
+      rgb(148, 163, 184) 50%,
+      rgb(203, 213, 225) 75%,
+      rgb(255, 255, 255) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .heading-lg {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, rgb(139, 92, 246), rgb(217, 70, 239));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Enhanced spacing system */
+  .section-padding {
+    @apply py-24 lg:py-32;
+  }
+
+  .container-padding {
+    @apply px-6 lg:px-8;
+  }
+
+  /* Professional form elements */
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-white/10;
+    @apply bg-white/5 backdrop-blur-sm placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-400/50;
+    @apply transition-all duration-300;
+  }
+
+  .form-textarea {
+    @apply w-full px-4 py-3 rounded-xl border border-white/10;
+    @apply bg-white/5 backdrop-blur-sm placeholder:text-slate-400;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-400/50;
+    @apply transition-all duration-300 resize-none;
   }
 }
 
@@ -107,39 +263,66 @@
 }
 
 @keyframes dataFlow {
-  0% {
-    background-position: 200% 0;
+  0%, 100% {
+    background-position: 300% 0;
   }
-  100% {
-    background-position: -200% 0;
+  50% {
+    background-position: -100% 0;
   }
 }
 
-.canvas-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* Responsive design enhancements */
+@media (max-width: 768px) {
   .portfolio-card:hover {
     transform: scale(1);
   }
   
-  .neon-border, .portfolio-card {
-    animation: none;
-    transition: none;
-  }
-
   .group:hover .shimmer-overlay,
   .group:hover .data-flow {
     animation: none;
   }
+}
 
-  .digital-grid {
-    display: none;
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .portfolio-card:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass {
+    @apply border-white/30 bg-black/80;
+  }
+  
+  .text-gradient {
+    background: none;
+    -webkit-text-fill-color: white;
+    color: white;
   }
 }
